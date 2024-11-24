@@ -40,5 +40,47 @@ Param(
     [String[]]$RemediateOnly
 )
 
-# Loading configuration file
+# Loading static definition
+Import-Module .\Modules\colorSchema, .\Modules\Logs
+Set-ColorSchema
+Set-MessageType
+Set-logEnvironement
 
+# Script start
+Try {
+    New-Variable -Name xmlCfg  -Option AllScope -Force -Scope Global -Value ([xml](Get-Content .\config\scriptSettings.xml -Encoding utf8 -ErrorAction Stop))
+    New-Variable -Name LogFile -Option AllScope -Force -Scope Global -Value ($xmlCfg.Settings.Log.File)
+    write-toLog -Start 
+    write-toScreen -Start
+    # information: show option used
+    Switch ($PsCmdlet.ParameterSetName) {
+        "DFT" {
+            write-toLog inf @("Parameters:","> Scope...............: $($Scope)","> AutomaticRemediation: $($AutomaticRemediation)")
+            if ($AutomaticRemediation) { $perform = @("Detect","Fix") } else { $perform = @("Detect") }
+            
+            write-toScreen inf $perform
+            write-toScreen warn $perform
+            write-toScreen err $perform
+            write-toScreen success $perform
+            write-toScreen skip $perform
+            write-toScreen fail $perfor
+
+        }
+        "SID" {
+
+        }
+        "FIX" {
+
+        }
+    }
+
+
+} Catch {
+    write-host "$($colError)  Fatal Error!"
+    write-host "$($colError)  $($_)"
+    Exit 1
+}
+
+write-tolog -end
+write-toscreen -end
+Remove-Module colorSchema,Logs

@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings>
+    <Script Name="SID Cleaner" Version="01.00.00" Author="Loïc MSSec" Licence="GNU GPL 3" />
+    <Log File=".\logs\SidCleaner.log" />
 </Settings>
